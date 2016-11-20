@@ -158,8 +158,8 @@ var Shovel = function (game) {
 
 		if(hasResources == true){
 			this.level += 1;
-			this.button.name = "Dig (" + this.levelObject().name + ")"
-			this.button.cooldown = this.levelObject().cooldown
+			this.button.setName( "Dig (" + this.levelObject().name + ")")
+			this.button.setCooldown( this.levelObject().cooldown )
 			for(c in costs) {
 				cost = costs[c];
 				item = game.getInventoryItemByAlias(cost.alias);
