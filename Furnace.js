@@ -52,12 +52,10 @@ var Furnace = function (game) {
 		rocks = game.getInventoryItemByAlias("rock");
 		this.selectedAction = this.getFurnaceActionByAlias($('#furnace-select').val());
 		
-		if( rocks.quantity >= FURNACE_COST ) {
+		if( !this.bought && rocks.quantity >= FURNACE_COST ) {
 		  $("#build_furnace").show();
 		}
 
-
-		// console.log(this.clicked);
 		if(this.clicked) {
 			this.buy();
 		}
@@ -66,26 +64,27 @@ var Furnace = function (game) {
 		if( !(this.selectedAction == undefined) && this.activateClicked && this.cooldownLeft == 0) {
 			this.selectedAction.activate();
 		}
-		// console.log(this.activateClicked)
+
 		this.activateClicked = false;
-		// console.log(this.cooldownLeft);
-		// console.log(this.cooldownRatio());
+
 		$("#furnace_loader").css("width", 100 -100*this.cooldownRatio() + "%");
 	};
 
 	this.buy = function() {
 		rocks = game.getInventoryItemByAlias("rock");
 		if(rocks.quantity >= FURNACE_COST) {
-	      rocks.addQuantity(-FURNACE_COST);
+			rocks.addQuantity(-FURNACE_COST);
 
-	      this.bought = true;
-	      $("#furnace-button").show();
-          
+			this.bought = true;
+			$("#furnace-button").show();
+		
 
-          f = this;
-		  $("#activate-furnace").click(function() {
-		    f.activateClicked = true;
-		  });
+			f = this;
+			$("#activate-furnace").click(function() {
+				f.activateClicked = true;
+			});
+			
+			$("#build_furnace").hide()
 		} else {
 			console.log("Not enough rocks.")
 		}
@@ -113,7 +112,7 @@ var Furnace = function (game) {
 
 
 	$("#game-2").find("#items").append("<div class='build' id='build_furnace' ></div>");
-    $("#build_furnace").html("<strong>Build Furnace</strong><br/><div href='#' class='btn buy_btn'>"+ FURNACE_COST+" Rock</div>");
+	$("#build_furnace").html("<strong>Build Furnace</strong><br/><div href='#' class='btn buy_btn'>"+ FURNACE_COST+" Rock</div>");
 	var f = this;
 	$(".buy_btn").click(function() {
 		f.clicked = true;
@@ -123,7 +122,7 @@ var Furnace = function (game) {
 	$("#buttons").append("<div class='button' id='furnace-button'></div>")
 
 	$("#furnace-button").html("<strong>Furnace</strong><br/> \
-          	" + this.select_html);
+			" + this.select_html);
 	$("#furnace-button").hide()
 
 }
