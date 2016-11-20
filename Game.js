@@ -18,7 +18,6 @@ this.Game = function (canvasId) {
 	this.ele = $("#"+canvasId);
 	this.digs = 0;
 
-	// console.log(this.ele.find("#buttons"));
 	/* stats */
 
 	digCount = 0;

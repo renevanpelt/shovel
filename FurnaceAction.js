@@ -32,7 +32,7 @@ var FurnaceAction = function (game, name, alias, cooldown, res_in, res_out, butt
 					var item = this.game.getInventoryItemByAlias(alias)
 					item.addQuantity(-1*cost);
 				}
-				console.log(this.res_out);
+
 				for(o in this.res_out) {
 					var res_item = this.res_out[o]
 					var alias = res_item[0];

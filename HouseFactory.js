@@ -30,8 +30,7 @@ var HouseFactory = function (game) {
 	}
 
 	this.update = function(delta) {
-		// console.log(this.clicked);
-		if(this.clicked && this.level <= this.levels.length) {
+		if(this.clicked && this.level < this.levels.length) {
 			this.buy();
 		}
 		this.clicked = false;
@@ -42,8 +41,7 @@ var HouseFactory = function (game) {
 		if( bricks.quantity >= HOUSE_COST ) {
 		  $("#build_house").show();
 		}
-		console.log(this);
-		console.log(this.nextLevel());
+
 		$("#house_cost").html(this.nextLevel().cost[0].amount); // TODO: Make possible for more costs
 		$("#population_occupation").html(this.population + "/" + this.maxPopulation); 
 	 

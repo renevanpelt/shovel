@@ -30,7 +30,6 @@ var Shovel = function (game) {
 	this.init = function() {
 		b = new Button(this.game,"Dig (Wooden pickaxe)", "dig",50,"Digged");
 		this.button = b;
-		// console.log(this.game)
 		b.action = function () {
 			var message = "";
 			g = this.game
@@ -108,9 +107,7 @@ var Shovel = function (game) {
 	}
 
 	this.update = function(delta) {
-		// console.log(this.clicked)
 		if(this.clicked) {
-			console.log("AFJSDFLKJ")
 			this.buy();
 		}
 		this.clicked = false;
