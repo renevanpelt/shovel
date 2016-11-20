@@ -43,10 +43,12 @@ var Shovel = function (game) {
 				coal_perc = 70;
 				iron_perc = 10;
 				copper_perc = 10;
+				sand_perc = 10;
 				tin_perc = 10;
 			} else if(g.digs >= 100 && g.digs < 200) {
 				dirt_perc = 100;
 				clay_perc = 20;
+				sand_perc = 10;
 				rock_perc = 20;
 				copper_perc = 10;
 				tin_perc = 10;
@@ -57,6 +59,7 @@ var Shovel = function (game) {
 				clay_perc = 20;
 				copper_perc = 10;
 				tin_perc = 10;
+				sand_perc = 10;
 				rock_perc = 20;
 				coal_perc = 40;
 				iron_perc = 40;
@@ -98,6 +101,11 @@ var Shovel = function (game) {
 				var item = g.getInventoryItemByAlias("tin");
 				item.addQuantity(1);
 			}
+			if(dice(sand_perc)){
+				message += ", sand";
+				var item = g.getInventoryItemByAlias("sand");
+				item.addQuantity(1);
+			}
 			message += "."
 			this.message = message;
 
@@ -136,9 +144,9 @@ var Shovel = function (game) {
 	};
 
 	this.buy = function() {
-		iron = game.getInventoryItemByAlias("iron");
-		dirt = game.getInventoryItemByAlias("dirt");
-		sand = game.getInventoryItemByAlias("sand");
+		// iron = game.getInventoryItemByAlias("iron");
+		// dirt = game.getInventoryItemByAlias("dirt");
+		// sand = game.getInventoryItemByAlias("sand");
 		
 		costs = this.nextLevel().costs
 

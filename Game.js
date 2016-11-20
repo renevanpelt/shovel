@@ -96,6 +96,8 @@ this.Game = function (canvasId) {
 	this.getInventoryItemByAlias = function(alias) {
 		for(i in this.inventory) {
 			var item = this.inventory[i];
+			console.log(alias)
+			console.log(item.alias)
 			if (item.alias == alias) {
 				return item
 			}
@@ -130,10 +132,15 @@ this.Game = function (canvasId) {
 		this.inventory.push(item);
 		item = new InventoryItem(this, "Steel", "steel", 0, 10000);
 		this.inventory.push(item);
+		item = new InventoryItem(this, "Glass", "glass", 0, 10000);
+		this.inventory.push(item);
 	}
 
 	this.highlightShopTab = function() {
-		$("#menu-game-2").addClass("badge");
+
+		if($("#menu-game-2").hasClass("active") != true){
+			$("#menu-game-2").addClass("badge");
+		}
 	}
 
 	this.drawInventory = function() {
@@ -144,7 +151,7 @@ this.Game = function (canvasId) {
 	}
 
 
-    this.init();
+	  this.init();
 	this.furnace = new Furnace(this);
 	this.shovel = new Shovel(this);
 	this.houseFactory = new HouseFactory(this);

@@ -20,6 +20,9 @@ var Furnace = function (game) {
 		this.actions.push(a);
 		a = new FurnaceAction(this.game, "Steel", "steel", 1000, [["iron", 1],["coal", 3]], [["steel", 1]],"", "iron" );
 		this.actions.push(a);
+		a = new FurnaceAction(this.game, "Glass", "glass", 1000, [["sand", 10]],[["glass", 1]],"", "sand" );
+		this.actions.push(a);
+		console.log(a.requiredAlias)
 
 		this.select_html = "<select id='furnace-select'>";
 		this.select_html += "<option>Choose action</option>";
@@ -54,11 +57,11 @@ var Furnace = function (game) {
 		this.selectedAction = this.getFurnaceActionByAlias($('#furnace-select').val());
 		
 		if( !this.bought && rocks.quantity >= FURNACE_COST ) {
-		  $("#build_furnace").show();
-		  if(this.discovered != true) {
-		  	this.game.highlightShopTab();
-		  	this.discovered = true;
-		  }
+			$("#build_furnace").show();
+			if(this.discovered != true) {
+				this.game.highlightShopTab();
+				this.discovered = true;
+			}
 		}
 
 		if(this.clicked) {
