@@ -132,6 +132,10 @@ this.Game = function (canvasId) {
 		this.inventory.push(item);
 	}
 
+	this.highlightShopTab = function() {
+		$("#menu-game-2").addClass("badge");
+	}
+
 	this.drawInventory = function() {
 		for(i in this.inventory) {
 			this.inventory[i].draw();

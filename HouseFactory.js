@@ -6,7 +6,7 @@ var HouseFactory = function (game) {
 	this.maxPopulation = 0;
 	this.level = 0;
 	this.population = 0;
-
+	this.discovered = false;
 	this.levelObject = function() {
 		return this.levels[this.level];
 	}
@@ -19,10 +19,10 @@ var HouseFactory = function (game) {
 		{cost: [{alias: "brick", amount: 1}], population: 5},
 		{cost: [{alias: "brick", amount: 2}], population: 5},
 		{cost: [{alias: "brick", amount: 3}], population: 5},
-		{cost: [{alias: "brick", amount: 5}], population: 5},
-		{cost: [{alias: "brick", amount: 8}], population: 5},
-		{cost: [{alias: "brick", amount: 13}], population: 5},
-		{cost: [{alias: "brick", amount: 21}], population: 5},
+		// {cost: [{alias: "brick", amount: 5}], population: 5},
+		// {cost: [{alias: "brick", amount: 8}], population: 5},
+		// {cost: [{alias: "brick", amount: 13}], population: 5},
+		// {cost: [{alias: "brick", amount: 21}], population: 5},
 	]
 
 	this.init = function() {
@@ -37,25 +37,34 @@ var HouseFactory = function (game) {
 	}
 
 	this.draw =  function() {
-		bricks = this.game.getInventoryItemByAlias("brick");
-		if( bricks.quantity >= HOUSE_COST ) {
-		  $("#build_house").show();
-		}
+		if ((this.level < this.levels.length - 1)) {
 
-		$("#house_cost").html(this.nextLevel().cost[0].amount); // TODO: Make possible for more costs
-		$("#population_occupation").html(this.population + "/" + this.maxPopulation); 
-	 
+			bricks = this.game.getInventoryItemByAlias("brick");
+			if( bricks.quantity >= HOUSE_COST ) {
+				$("#build_house").show();
+
+				if( this.discovered != true ) {
+					this.discovered = true;
+					this.game.highlightShopTab();
+				}
+			}
+
+			$("#house_cost").html(this.nextLevel().cost[0].amount); // TODO: Make possible for more costs
+			$("#population_occupation").html(this.population + "/" + this.maxPopulation); 
+		} else {
+			$("#build_house").hide();
+		}
 	};
 
 	this.buy = function() {
 		bricks = game.getInventoryItemByAlias("brick");
 		// houses = game.getInventoryItemByAlias("house");
 		if(bricks.quantity >= HOUSE_COST) {
-  		  $("#menu-game-3").show();
-	      bricks.addQuantity(-HOUSE_COST);
-		  this.maxPopulation += this.nextLevel().population;
-		  this.level += 1;
-		  this.draw();
+			$("#menu-game-3").show();
+			bricks.addQuantity(-HOUSE_COST);
+			this.maxPopulation += this.nextLevel().population;
+			this.level += 1;
+			this.draw();
 		} else {
 			console.log("Not enough bricks.")
 		}
@@ -79,7 +88,7 @@ var HouseFactory = function (game) {
 
 	$("#game-3").append("<div class='' id='population_stats'><p><strong>Population: </strong><span id='population_occupation'></span></p></div>");
 	$("#game-2").find("#items").append("<div class='build' id='build_house' ></div>");
-    $("#build_house").html("<strong>Build House</strong><br/><div class='btn' id='buy_house_btn'><span id='house_cost'></span> Bricks</div>");
+	$("#build_house").html("<strong>Build House</strong><br/><div class='btn' id='buy_house_btn'><span id='house_cost'></span> Bricks</div>");
 	$("#build_house").hide();
 	
 	this.init();

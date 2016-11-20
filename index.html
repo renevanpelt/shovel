@@ -33,9 +33,16 @@ select{
 	font-size: 38px;
 	padding-top: 11px;
 }
+.menu-item > i {
+	/*padding-top: 11px;*/
+}
 #menu > .menu-item.active {
 	height: 49px;
 	background-color: #676767;
+}
+#menu > .menu-item.badge {
+	height: 49px;
+	background-color: yellow;
 }
 
 #wallet {
@@ -169,6 +176,8 @@ body {
 h1 {
 	color:black;
 }
+
+
 </style>
 
 <body>
@@ -217,6 +226,7 @@ h1 {
   		$("#game-3").show();
   
   	}
+  	$(this).removeClass("badge");
   	$(".menu-item").removeClass("active");
   	$(this).addClass("active")
   });
