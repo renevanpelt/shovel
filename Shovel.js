@@ -43,12 +43,10 @@ var Shovel = function (game) {
 				coal_perc = 70;
 				iron_perc = 10;
 				copper_perc = 10;
-				sand_perc = 10;
 				tin_perc = 10;
 			} else if(g.digs >= 100 && g.digs < 200) {
 				dirt_perc = 100;
 				clay_perc = 20;
-				sand_perc = 10;
 				rock_perc = 20;
 				copper_perc = 10;
 				tin_perc = 10;
@@ -59,7 +57,6 @@ var Shovel = function (game) {
 				clay_perc = 20;
 				copper_perc = 10;
 				tin_perc = 10;
-				sand_perc = 10;
 				rock_perc = 20;
 				coal_perc = 40;
 				iron_perc = 40;
@@ -101,14 +98,9 @@ var Shovel = function (game) {
 				var item = g.getInventoryItemByAlias("tin");
 				item.addQuantity(1);
 			}
-			if(dice(sand_perc)){
-				message += ", sand";
-				var item = g.getInventoryItemByAlias("sand");
-				item.addQuantity(1);
-			}
 			message += "."
 			this.message = message;
-
+			return true
 		}
 		this.game.buttons.push(b);
 
@@ -122,19 +114,24 @@ var Shovel = function (game) {
 	}
 
 	this.draw =  function() {
-	    $("#upgrade_shovel").find("strong").find("span").html(this.nextLevel().name);
-    	var f = this;
-		$("#upgrade_shovel").click(function() {
-			f.clicked = true;
-		});
-	    for(c in this.nextLevel().costs){
-	    	cost = this.nextLevel().costs[c];
-	    	$("#shovel_cost").html("<div class='btn' id='upgrade_shovel_btn'>"+ cost.amount +" "+ cost.alias +"</div>");
-	    
+	    if(this.level < this.levels.length -1){
+	    	$("#upgrade_shovel").find("strong").find("span").html(this.nextLevel().name);
 	    	var f = this;
-			$("#upgrade_shovel_btn").click(function() {
+			$("#upgrade_shovel").click(function() {
 				f.clicked = true;
 			});
+
+		    for(c in this.nextLevel().costs){
+		    	cost = this.nextLevel().costs[c];
+		    	$("#shovel_cost").html("<div class='btn' id='upgrade_shovel_btn'>"+ cost.amount +" "+ cost.alias +"</div>");
+		    
+		    	var f = this;
+				$("#upgrade_shovel_btn").click(function() {
+					f.clicked = true;
+				});
+
+		    }
+	    } else {
 
 	    }
 
@@ -144,9 +141,6 @@ var Shovel = function (game) {
 	};
 
 	this.buy = function() {
-		// iron = game.getInventoryItemByAlias("iron");
-		// dirt = game.getInventoryItemByAlias("dirt");
-		// sand = game.getInventoryItemByAlias("sand");
 		
 		costs = this.nextLevel().costs
 
@@ -162,15 +156,21 @@ var Shovel = function (game) {
 		}
 
 		if(hasResources == true){
-			this.level += 1;
+			console.log(this.level)
+			console.log(this.levels.length)
+			if(this.level == this.levels.length - 2){
+				console.log(2323);
+				$("#upgrade_shovel").hide();
+			} else {
+				this.level += 1;
+			}
 			this.button.setName( "Dig (" + this.levelObject().name + ")")
 			this.button.setCooldown( this.levelObject().cooldown )
 			for(c in costs) {
 				cost = costs[c];
 				item = game.getInventoryItemByAlias(cost.alias);
-				item.addQuantity(-costs.amount);
+				item.addQuantity(-cost.amount);
 			}
-
 		}
 		this.draw();
 

@@ -96,8 +96,7 @@ this.Game = function (canvasId) {
 	this.getInventoryItemByAlias = function(alias) {
 		for(i in this.inventory) {
 			var item = this.inventory[i];
-			console.log(alias)
-			console.log(item.alias)
+
 			if (item.alias == alias) {
 				return item
 			}

@@ -1,16 +1,9 @@
 var Sieve = function (game) {
 	
 	this.game = game;
-	// this.currentAction = undefined;
-	// this.clicked = false;
 	this.clicked = false;
-	// this.cooldownLeft = 0;
-	// this.actions = [];
-	// this.selectedAction = undefined;
-	// this.select_html = "";
-	// this.activateClicked = false;
-
-
+	this.bought = false;
+	this.discovered = false;
 	this.init = function() {
 	
 	}
@@ -25,10 +18,11 @@ var Sieve = function (game) {
 
 	this.draw =  function() {
 		iron = this.game.getInventoryItemByAlias("iron");
-
-		if( iron.quantity >= SIEVE_COST ) {
-
-		  $("#build_sieve").show();
+		iron.quantity
+		if( iron.quantity >= SIEVE_COST && this.discovered == false ) {
+			this.discovered = true;
+		  	$("#build_sieve").show();
+		  	this.game.highlightShopTab();
 		}
 	};
 
@@ -37,17 +31,19 @@ var Sieve = function (game) {
 		var dirt = game.getInventoryItemByAlias("dirt");
 		var sand = game.getInventoryItemByAlias("sand");
 		if(iron.quantity >= SIEVE_COST) {
-	      iron.addQuantity(-SIEVE_COST);
-	      // $("#sieve-button").show();
-		  var b = new Button(this.game,"Sieve dirt ("+ SIEVE_DIRT_IN+")", "sieve",200,"Sivved");
-		  b.action = function () {
-		  	if(dirt.quantity >= SIEVE_DIRT_IN) {
-	      	  dirt.addQuantity(-SIEVE_DIRT_IN);
-	      	  sand.addQuantity(SIEVE_SAND_OUT);
-		  	}
-		  }
-          this.game.buttons.push(b);
-
+			iron.addQuantity(-SIEVE_COST);
+			// $("#sieve-button").show();
+			var b = new Button(this.game,"Sieve dirt ("+ SIEVE_DIRT_IN+")", "sieve",200,"Sivved");
+			b.action = function () {
+				if(dirt.quantity >= SIEVE_DIRT_IN) {
+					dirt.addQuantity(-SIEVE_DIRT_IN);
+					sand.addQuantity(SIEVE_SAND_OUT);
+					return true
+				}
+				return false
+			}
+			this.game.buttons.push(b);
+			$("#build_sieve").hide();
 		} else {
 			console.log("Not enough iron.")
 		}
@@ -70,7 +66,7 @@ var Sieve = function (game) {
 
 
 	$("#game-2").find("#items").append("<div class='build' id='build_sieve' ></div>");
-    $("#build_sieve").html("<strong>Build Sieve</strong><br/><div class='btn' id='buy_sieve_btn'>"+ SIEVE_COST +" Iron</div>");
+	$("#build_sieve").html("<strong>Build Sieve</strong><br/><div class='btn' id='buy_sieve_btn'>"+ SIEVE_COST +" Iron</div>");
 	$("#build_sieve").hide();
 
 

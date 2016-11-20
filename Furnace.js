@@ -22,7 +22,7 @@ var Furnace = function (game) {
 		this.actions.push(a);
 		a = new FurnaceAction(this.game, "Glass", "glass", 1000, [["sand", 10]],[["glass", 1]],"", "sand" );
 		this.actions.push(a);
-		console.log(a.requiredAlias)
+
 
 		this.select_html = "<select id='furnace-select'>";
 		this.select_html += "<option>Choose action</option>";

@@ -33,10 +33,11 @@ var Button = function (game, name, alias, cooldown, message) {
 			this.cooldownLeft -= delta;
 		}
 		if(this.clicked && this.cooldownLeft == 0) {
-			this.action();
-			this.cooldownLeft = this.cooldown;
-			this.game.addLogBookRule(this.message);
-			this.clickCount +=1;
+			if(this.action()) {
+				this.cooldownLeft = this.cooldown;
+				this.game.addLogBookRule(this.message);
+				this.clickCount +=1;	
+			};
 		}
 
 		this.clicked = false;
