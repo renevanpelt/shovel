@@ -1,0 +1,249 @@
+<html>
+
+<head>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="Button.js"></script>
+<script src="InventoryItem.js"></script>
+<script src="FurnaceAction.js"></script>
+<script src="HouseFactory.js"></script>
+<script src="Furnace.js"></script>
+<script src="Shovel.js"></script>
+<script src="Wallet.js"></script>
+<script src="Sieve.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+<script src="Game.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+</head>
+
+<style>
+
+#game {
+
+}
+
+#menu > .menu-item {
+	float:left;
+	height: 100%;
+	width: 60px;
+	font-size: 38px;
+	padding-top: 11px;
+}
+#menu > .menu-item.active {
+	height: 49px;
+	background-color: #676767;
+}
+
+#wallet {
+	margin-top: 11px;
+	float:right;
+}
+
+#amount_money {
+	line-height: 0px;
+	margin-right: 10px;
+	font-size: 68px;
+}
+.btn{
+	background-color: #494949;
+	margin: 0px auto;
+	text-align: center;
+	width:70%;
+	padding: 4px;
+}
+
+.game{
+	min-width: 800px;
+	height: 600px;
+	background-color: #676767;
+	margin: 0px auto;
+
+}
+#menu{
+
+	min-width: 800px;
+	height: 60px;
+	background-color: #565656;
+	margin: 0px auto;
+
+}
+
+*{
+	color:#efefef;
+	font-size: 1.1em;
+	/*font-family: 'Open Sans', sans-serif;*/
+	font-family: 'Indie Flower', cursive;
+}
+
+.logBookMsg {
+	width: 100%;
+	margin-bottom: 10px;
+	font-size: 0.8em;
+	background-color: #474747;
+}
+
+.button {
+	width: 100%;
+	margin-bottom: 8px;
+	height: auto;
+	line-height: 48px;
+	text-align:center;
+	background-color: #909090;
+}
+
+#buttons {
+	float: left;
+	width:40%;
+	
+}
+#activate-furnace {
+	background-color:#acacac;
+	margin: 0px auto;
+	width:40%;
+	margin-top:4px;
+	margin-bottom:4px;
+
+	font-size: 1em;
+	height: auto;
+
+}
+
+#logBook {
+	width:40%;
+	float: left;
+	
+}
+#inventory {
+	float: left;
+	width: 100%;
+}
+#inventory-wrapper {
+	float: left;
+	width:20%;
+}
+
+.builds {
+	width: 100%;
+}
+
+.loader {
+	height: 4px;
+	background-color: white;
+}
+
+.inventory_item {
+	width:100%;
+	background-color: #909090;
+	font-size: 0.8em;
+	margin-top: 2px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+.inventory_item > span {
+	float:right;
+	margin-right:15px;
+
+}
+
+.sell{
+	width: 80%;
+	font-size: 0.7em;
+	background-color: #bababa;
+	color: #232323;
+	margin: 0px auto;
+}
+.sell > span{
+
+	color: #232323;
+
+}
+body {
+	text-align: center;
+	background-color: #454545;
+}
+
+h1 {
+	color:black;
+}
+</style>
+
+<body>
+
+<h1>Shovvel</h1>
+	<div id="menu">
+		<div class="menu-item active" id="menu-game"><i class="fa fa-star"></i></div>
+		<div class="menu-item" id="menu-game-2"><i class="fa fa-shopping-cart"></i></div>
+		<div class="menu-item" id="menu-game-3"><i class="fa fa-users"></i></div>
+		<div id="wallet"><img style="max-width:40px;"src="img/money.png"></img> <span id="amount_money"></span></div>
+	</div>
+	<br/>
+	<div class="game" id="game">
+		<div id="buttons"></div>
+		<div id="logBook"></div>
+		<div id="inventory-wrapper">
+			<div id="inventory"></div>
+			<div id="builds"></div>
+		</div>
+	</div>
+	<div class="game" id="game-2">
+		<div id="items">
+
+		</div>
+
+	</div>
+	<div class="game" id="game-3">
+
+	</div>
+</body>
+
+<script>
+
+  $(".menu-item").click(function() {
+  	console.log($(this).attr("id"))
+  	if($(this).attr("id") == "menu-game") {
+  		$("#game").show();
+  		$("#game-2").hide();
+  		$("#game-3").hide();
+  	} else if($(this).attr("id") == "menu-game-2") {
+  		$("#game").hide();
+  		$("#game-2").show();
+  		$("#game-3").hide();
+  	} else if($(this).attr("id") == "menu-game-3") {
+  		$("#game").hide();
+  		$("#game-2").hide();
+  		$("#game-3").show();
+  
+  	}
+  	$(".menu-item").removeClass("active");
+  	$(this).addClass("active")
+  });
+  var SHOVEL_COST = 10;
+  var FURNACE_COST = 10;
+  var HOUSE_COST = 4;
+  var SIEVE_COST = 4;
+  var SIEVE_DIRT_IN = 10;
+  var SIEVE_SAND_OUT = 1;
+
+  dice = function(percentage) {
+    num = Math.ceil(Math.random(new Date())*100)
+    return (num <= percentage);
+  }
+
+  g = new Game("game");
+  loop = function () {
+  	g.update();
+  	window.setTimeout(function() {loop()}, 1000 / 30);
+  	// $(".button#dig").click();
+  	
+  }
+
+  loop();
+
+
+  $("#game-2").hide();
+  $("#game-3").hide();
+  $("#menu-game-3").hide();
+
+</script>
+</html>
