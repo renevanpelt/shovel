@@ -1,18 +1,11 @@
 var HouseFactory = function (game) {
 	
 	this.game = game;
-	// this.currentAction = undefined;
-	// this.clicked = false;
 	this.clicked = false;
-	// this.cooldownLeft = 0;
-	// this.actions = [];
-	// this.selectedAction = undefined;
-	// this.select_html = "";
-	// this.activateClicked = false;
 
 	this.maxPopulation = 0;
 	this.level = 0;
-	this.population = 12;
+	this.population = 0;
 
 	this.levelObject = function() {
 		return this.levels[this.level];
@@ -23,13 +16,13 @@ var HouseFactory = function (game) {
 	}
 
 	this.levels = [
-		{cost: [{alias: "brick", amount: 10}], population: 5},
-		{cost: [{alias: "brick", amount: 10}], population: 5},
-		{cost: [{alias: "brick", amount: 10}], population: 5},
-		{cost: [{alias: "brick", amount: 10}], population: 5},
-		{cost: [{alias: "brick", amount: 10}], population: 5},
-		{cost: [{alias: "brick", amount: 10}], population: 5},
-		{cost: [{alias: "brick", amount: 10}], population: 5},
+		{cost: [{alias: "brick", amount: 1}], population: 5},
+		{cost: [{alias: "brick", amount: 2}], population: 5},
+		{cost: [{alias: "brick", amount: 3}], population: 5},
+		{cost: [{alias: "brick", amount: 5}], population: 5},
+		{cost: [{alias: "brick", amount: 8}], population: 5},
+		{cost: [{alias: "brick", amount: 13}], population: 5},
+		{cost: [{alias: "brick", amount: 21}], population: 5},
 	]
 
 	this.init = function() {
@@ -38,7 +31,7 @@ var HouseFactory = function (game) {
 
 	this.update = function(delta) {
 		// console.log(this.clicked);
-		if(this.clicked) {
+		if(this.clicked && this.level <= this.levels.length) {
 			this.buy();
 		}
 		this.clicked = false;
