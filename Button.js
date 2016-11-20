@@ -6,6 +6,7 @@ var Button = function (game, name, alias, cooldown, message) {
 	this.cooldown =  cooldown;
 	this.cooldownLeft = this.cooldown;
 	this.loader_html_id = "loader_" + alias
+	this.clickCount = 0;
 	this.clicked = false;
 
 
@@ -35,6 +36,7 @@ var Button = function (game, name, alias, cooldown, message) {
 			this.action();
 			this.cooldownLeft = this.cooldown;
 			this.game.addLogBookRule(this.message);
+			this.clickCount +=1;
 		}
 
 		this.clicked = false;
@@ -48,6 +50,7 @@ var Button = function (game, name, alias, cooldown, message) {
 	this.draw =  function() {
 		$("#"+this.loader_html_id).css("width", 100 -100*this.cooldownRatio() + "%");
 		$("#"+this.alias).find("strong").html(this.name);
+		$("#"+this.alias).find("small").html(this.clickCount);
 	};
 
 
@@ -61,7 +64,8 @@ var Button = function (game, name, alias, cooldown, message) {
 
 	$("#game").find("#buttons").prepend(" \
 		<div class='button' id='"+ this.alias +"' > \
-			<strong class='name'>" + this.name + "</strong> \
+			<strong class='name'>" + this.name + "</strong><br/> \
+			<small class='small'>" + this.clickCount + "</small> \
 			<div class='loader' id='" + this.loader_html_id + "'></div> \
 		</div> \
 		");
