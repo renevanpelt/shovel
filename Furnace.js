@@ -9,6 +9,7 @@ var Furnace = function (game) {
 	this.selectedAction = undefined;
 	this.select_html = "";
 	this.activateClicked = false;
+	this.discovered = false;
 
 	this.init = function() {
 		a = new FurnaceAction(this.game, "Brick", "brick", 1000, [["clay", 1],["coal", 1]], [["brick", 1]],"", "coal" );
@@ -54,6 +55,10 @@ var Furnace = function (game) {
 		
 		if( !this.bought && rocks.quantity >= FURNACE_COST ) {
 		  $("#build_furnace").show();
+		  if(this.discovered != true) {
+		  	this.game.highlightShopTab();
+		  	this.discovered = true;
+		  }
 		}
 
 		if(this.clicked) {
